@@ -9,7 +9,7 @@ const bcrypt = require("bcrypt");
 const googleCredentials = {
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://turbo-succotash-gxq4v6g4g7pphv9jq-8080.app.github.dev/google/callback",
+  callbackURL: "https://backendprioritytodolistapp.onrender.com/google/callback",
 };
 
 const fbCredentials = {
