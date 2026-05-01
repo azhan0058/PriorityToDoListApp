@@ -155,13 +155,13 @@ app.post("/forgotpass", async (req, res) => {
       port: 465,
       secure: true,
       auth: {
-        user: "jhonmoorthi85131@gmail.com",
-        pass: "klxb xvje ygnr qvbo",
+        user: "azhan101united@gmail.com",
+        pass: "A1z2h3@4n5",
       },
     });
 
     var mailOptions = {
-      from: "jhonmoorthi85131@gmail.com",
+      from: "azhan101united@gmail.com",
       to: email,
       subject: "Forgot password for task manager",
       text: `${process.env.FRONTEND_DOMAIN}/ResetPass/${user._id}/${token}`,
