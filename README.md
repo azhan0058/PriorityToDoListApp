@@ -1,3 +1,6 @@
+## App is live on Render
+Go check out the live app on render through this 
+  URL https://prioritytodolistapp.onrender.com/
 
 # TASK MANAGER - MERN 
 
@@ -114,3 +117,9 @@ cd Task-Manager--First-MERN/FrontEnd
 npm install
 npm start or npm run dev
 ```
+
+
+## App is live on Render
+Go check out the live app on render through this 
+  URL https://prioritytodolistapp.onrender.com/
+
