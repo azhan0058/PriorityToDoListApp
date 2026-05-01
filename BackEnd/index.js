@@ -20,7 +20,7 @@ app.use([
   cors({
     origin: process.env.FRONTEND_DOMAIN,
     credentials: true,
-    methods: ["GET", "PUT", "PATCH", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   }),
   express.json(),
   express.urlencoded({ extended: true }),
@@ -30,6 +30,7 @@ const sessionStore = new MongoStore({
   mongoUrl: process.env.MONGO_URL,
   collectionName: "session",
 });
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
