@@ -10,8 +10,8 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 
 const Profile = ({ tasks }) => {
-  const [quote, setQuote] = useState();
-  const [author, setAuthor] = useState();
+  const [quote, setQuote] = useState("Loading inspiration...");
+  const [author, setAuthor] = useState("");
   const [user, setUser] = useState();
   const [upcomingTasks, setUpcomingTasks] = useState([]);
   const [dialog, setDialog] = useState({
@@ -19,18 +19,33 @@ const Profile = ({ tasks }) => {
   });
 
   axios.defaults.withCredentials = true;
+
+  // SOLUTION: Centralized HTTPS fetch function for the new API
+  const getNewQuote = () => {
+    // Using HTTPS and a stable 2026 alternative (ZenQuotes)
+    fetch("https://zenquotes.io/api/random")
+      .then((res) => res.json())
+      .then((data) => {
+        // ZenQuotes returns an array: [{ q: "quote", a: "author" }]
+        setQuote(data[0].q);
+        setAuthor(data[0].a);
+      })
+      .catch((err) => {
+        console.error("Quote Error:", err);
+        setQuote("The only way to do great work is to love what you do.");
+        setAuthor("Steve Jobs");
+      });
+  };
+
   useEffect(() => {
     Aos.init({ duration: 1200 });
-    fetch("http://api.quotable.io/random")
-      .then((res) => res.json())
-      .then((quotes) => {
-        setQuote(quotes.content);
-        setAuthor(quotes.author);
-      });
+    
+    // SOLUTION: Call the secure function on mount
+    getNewQuote();
+
     axios
       .get(`${process.env.REACT_APP_API_URL}/getUser`)
       .then((res) => {
-        // console.log(res.data);
         setUser(res.data);
       })
       .catch((err) => console.log(err));
@@ -50,15 +65,9 @@ const Profile = ({ tasks }) => {
       .catch((err) => console.log(err));
   }, [tasks]);
 
-  console.log(upcomingTasks);
-
+  // SOLUTION: Manual reload now uses the secure function
   const reloadQuote = () => {
-    fetch("http://api.quotable.io/random")
-      .then((res) => res.json())
-      .then((quotes) => {
-        setQuote(quotes.content);
-        setAuthor(quotes.author);
-      });
+    getNewQuote();
   };
 
   function openNotifi() {
@@ -67,6 +76,7 @@ const Profile = ({ tasks }) => {
   function closeNotifi() {
     setDialog({ isLoading: false });
   }
+
   return (
     <React.Fragment>
       <div className="profile" data-aos="fade-left">
@@ -97,7 +107,9 @@ const Profile = ({ tasks }) => {
         <Calendar />
         <div className="quote-div" data-aos="zoom-in">
           <h3>
+            {/* Added key={quote} to force TypeWriter to reset when quote changes */}
             <TypeWriter
+              key={quote}
               options={{
                 autoStart: true,
                 loop: true,
