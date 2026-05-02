@@ -39,6 +39,10 @@ app.use(
     store: sessionStore,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
+
+      sameSite: "none",   // Required because frontend/backend domains differ
+      secure: true,       // Required if sameSite is "none" (works over HTTPS)
+      httpOnly: true,
     },
   })
 );
