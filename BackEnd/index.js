@@ -31,12 +31,15 @@ const sessionStore = new MongoStore({
   collectionName: "session",
 });
 
+app.set("trust proxy", 1);
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
     store: sessionStore,
+    proxy: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
 
